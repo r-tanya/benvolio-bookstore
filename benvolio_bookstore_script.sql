@@ -1,3 +1,4 @@
+
 CREATE TABLE Publishing_House
 (
   pub_id INT NOT NULL,
@@ -91,7 +92,6 @@ CREATE TABLE Book_Sold
   FOREIGN KEY (emp_id) REFERENCES Salesperson(emp_id),
   FOREIGN KEY (book_id) REFERENCES Book(book_id)
 );
-
 
 INSERT INTO publishing_house VALUES (1, "Macmillan", "1843");
 INSERT INTO publishing_house VALUES (2, "HarperCollins", "1989");
