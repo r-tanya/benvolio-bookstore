@@ -19,8 +19,8 @@ Products are also categorized into series and genres, and author and publisher i
      grant all on db_name.* to username;
 8. Create a folder for this application inside UniServerZ\www\.
 9. Download the index.php file from this repository and save it in this folder.
-10. Open index.php. Modify the $username, $password, $dbname parameters to reflect your chosen database name, user, and password for this application.
-11. Go to localhost/foldername on your browser to access the application.
+10. Open index.php. Modify the $username, $password, $dbname parameters to reflect the chosen database name, user, and password for this application.
+11. Go to localhost/foldername on a browser to access the application.
 
 To access the application in the future, launch UniController, start Apache and MySQL, and go to localhost/foldername.
 
