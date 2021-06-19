@@ -10,10 +10,8 @@
 </head>
 
 <body>
-
 	<h1> Benvolio Bookstore </h1>
 	<br/>
-
 <?php
 	
 	$servername = "localhost";
@@ -29,8 +27,7 @@
 	}
 
 	$result = $conn->query("SELECT * FROM book WHERE no_in_stock > 0");
-
-	//print("Benvolio Bookstore<br/><br/>");
+	
 	if ($result->num_rows > 0) {
 	    // output id of each row
 	    while($row = $result->fetch_assoc()) {
@@ -52,16 +49,15 @@
 	  	if (!$ok) { die("Bind param error"); }
 	  	$ok = $stmt->execute();
 	  	if (!$ok) { die("Exec error"); }
-        $result = $stmt->get_result();
+        	$result = $stmt->get_result();
 
-	  	print("<br/>");
-	  	
+	  	print("<br/>");	  	
 	  	while($row = $result->fetch_assoc()) {
-	      echo "ISBN: " . $row["ISBN"]. "<br>\n";
-	      echo "Title: " . $row["title"]. "<br>\n";
-	      echo "Page count: " . $row["page_count"]. "<br>\n";
-	      echo "Price: " . $row["price"]. "<br>\n";
-	      echo "No. in stock: " . $row["no_in_stock"]. "<br>\n";
+	      	echo "ISBN: " . $row["ISBN"]. "<br>\n";
+	      	echo "Title: " . $row["title"]. "<br>\n";
+	      	echo "Page count: " . $row["page_count"]. "<br>\n";
+	      	echo "Price: " . $row["price"]. "<br>\n";
+	      	echo "No. in stock: " . $row["no_in_stock"]. "<br>\n";
 	    }
 	  }
 	} else {
