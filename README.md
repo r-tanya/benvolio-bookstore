@@ -20,4 +20,4 @@ Products are also categorized into series and genres, and author and publisher i
 8. In index.php, modify the $username, $password, $dbname parameters to reflect the chosen database name, user, and password for this application.
 9. To access the application, navigate to http://localhost/foldername on a browser.
 
-*Currently the application displays the ID and title of books sold at Benvolio Bookstore and prompts the user to enter the ID of a book for more information.
+*Currently, this application displays the ID and title of books sold at Benvolio Bookstore and prompts the user to enter the ID of a book for more information.
