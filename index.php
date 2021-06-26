@@ -47,7 +47,7 @@
 		    while($row = $result->fetch_assoc()) {
 		    	//echo $row["book_id"] . ". " . $row["title"]."<br>\n<br>\n";
 		    	echo "<tr>";
-       			echo "<td>".$row["book_id"]."</td>";
+       	  echo "<td>".$row["book_id"]."</td>";
 			    echo "<td>".$row["title"]."</td>";
 			    echo "<td>".$row["price"]."</td>";
 			    echo "<td>".$row["no_in_stock"]."</td>";
@@ -71,17 +71,17 @@
 		  	if (!$ok) { die("Bind param error"); }
 		  	$ok = $stmt->execute();
 		  	if (!$ok) { die("Exec error"); }
-	        $result = $stmt->get_result();
+	      $result = $stmt->get_result();
 
 		  	print("<br/>");
 		  	
 		  	while($row = $result->fetch_assoc()) {
-		      echo "Title: " . $row["title"]. "<br>\n";
-		      echo "ISBN: " . $row["ISBN"]. "<br>\n";
-		      echo "Page count: " . $row["page_count"]. "<br>\n";
-		      echo "Release date: " . $row["release_date"]. "<br>\n";
-		      //echo "Price: " . $row["price"]. "<br>\n";
-		      //echo "No. in stock: " . $row["no_in_stock"]. "<br>\n";
+		      	echo "Title: " . $row["title"]. "<br>\n";
+		      	echo "ISBN: " . $row["ISBN"]. "<br>\n";
+			    	echo "Page count: " . $row["page_count"]. "<br>\n";
+			    	echo "Release date: " . $row["release_date"]. "<br>\n";
+			    	//echo "Price: " . $row["price"]. "<br>\n";
+			    	//echo "No. in stock: " . $row["no_in_stock"]. "<br>\n";
 		    }
 		  }
 		  echo '<br></table></div>';
