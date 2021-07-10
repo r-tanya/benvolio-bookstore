@@ -54,10 +54,10 @@
 		    while($row = $result->fetch_assoc()) {
 		    	echo "<tr>";
        	  		echo "<td>".$row["book_id"]."</td>";
-			    echo "<td> <a href=\"?book_id=".$row["book_id"]."\">".$row["title"]."</a></td>";
-			    echo "<td>".$row["price"]."</td>";
-			    echo "<td>".$row["no_in_stock"]."</td>";
-			    echo "</tr>";
+			echo "<td> <a href=\"?book_id=".$row["book_id"]."\">".$row["title"]."</a></td>";
+			echo "<td>".$row["price"]."</td>";
+			echo "<td>".$row["no_in_stock"]."</td>";
+			echo "</tr>";
 		    }
 
 		    echo '</tbody></table>';
@@ -76,35 +76,35 @@
 			  	if (!$ok) { die("Bind param error"); }
 			  	$ok = $stmt->execute();
 			  	if (!$ok) { die("Exec error"); }
-		      	$result = $stmt->get_result();
+		      		$result = $stmt->get_result();
 			  	print("<br/>");
 			  	
 			  	while($row = $result->fetch_assoc()) {
-			      	echo "Title: " . $row["title"]. "<br>\n";
-			      	echo "ISBN: " . $row["ISBN"]. "<br>\n";
+			      	    echo "Title: " . $row["title"]. "<br>\n";
+			      	    echo "ISBN: " . $row["ISBN"]. "<br>\n";
 				    echo "Page count: " . $row["page_count"]. "<br>\n";
 				    echo "Release date: " . $row["release_date"]. "<br>\n";
 
 				    $stmt = $conn->prepare("SELECT pub_name FROM publishing_house WHERE pub_id = ?");
-				  	$ok = $stmt->bind_param("i", $row["pub_id"]);
-				  	if (!$ok) { die("Bind param error"); }
-				  	$ok = $stmt->execute();
-				  	if (!$ok) { die("Exec error"); }
-			      	$result = $stmt->get_result();
-			      	$pubname = $result->fetch_row()[0];
-			      	echo "Publisher: " .$pubname. "<br>\n";
+				    $ok = $stmt->bind_param("i", $row["pub_id"]);
+				    if (!$ok) { die("Bind param error"); }
+				    $ok = $stmt->execute();
+				    if (!$ok) { die("Exec error"); }
+			      	    $result = $stmt->get_result();
+			      	    $pubname = $result->fetch_row()[0];
+			      	    echo "Publisher: " .$pubname. "<br>\n";
 
-			      	$stmt = $conn->prepare("SELECT author_id FROM author_book WHERE book_id = ?");
+			      		$stmt = $conn->prepare("SELECT author_id FROM author_book WHERE book_id = ?");
 				  	$ok = $stmt->bind_param("i", $id);
 				  	if (!$ok) { die("Bind param error"); }
 				  	$ok = $stmt->execute();
 				  	if (!$ok) { die("Exec error"); }
 				  	
-			      	$result2 = $stmt->get_result();
+			      		$result2 = $stmt->get_result();
 
-			      	echo "Author(s): ";
+			      		echo "Author(s): ";
 
-			      	$count = 1;
+			      		$count = 1;
 			      	while($row2 = $result2->fetch_assoc()) {
 			      		$authid = $row2["author_id"];
 			      		
