@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,10 +55,10 @@
 		    while($row = $result->fetch_assoc()) {
 		    	echo "<tr>";
        	  		echo "<td>".$row["book_id"]."</td>";
-			echo "<td> <a href=\"?book_id=".$row["book_id"]."\">".$row["title"]."</a></td>";
-			echo "<td>".$row["price"]."</td>";
-			echo "<td>".$row["no_in_stock"]."</td>";
-			echo "</tr>";
+			    echo "<td> <a href=\"?book_id=".$row["book_id"]."\">".$row["title"]."</a></td>";
+			    echo "<td>".$row["price"]."</td>";
+			    echo "<td>".$row["no_in_stock"]."</td>";
+			    echo "</tr>";
 		    }
 
 		    echo '</tbody></table>';
@@ -76,35 +77,35 @@
 			  	if (!$ok) { die("Bind param error"); }
 			  	$ok = $stmt->execute();
 			  	if (!$ok) { die("Exec error"); }
-		      		$result = $stmt->get_result();
+		      	$result = $stmt->get_result();
 			  	print("<br/>");
 			  	
 			  	while($row = $result->fetch_assoc()) {
-			      	    echo "Title: " . $row["title"]. "<br>\n";
-			      	    echo "ISBN: " . $row["ISBN"]. "<br>\n";
+			      	echo "Title: " . $row["title"]. "<br>\n";
+			      	echo "ISBN: " . $row["ISBN"]. "<br>\n";
 				    echo "Page count: " . $row["page_count"]. "<br>\n";
 				    echo "Release date: " . $row["release_date"]. "<br>\n";
 
 				    $stmt = $conn->prepare("SELECT pub_name FROM publishing_house WHERE pub_id = ?");
-				    $ok = $stmt->bind_param("i", $row["pub_id"]);
-				    if (!$ok) { die("Bind param error"); }
-				    $ok = $stmt->execute();
-				    if (!$ok) { die("Exec error"); }
-			      	    $result = $stmt->get_result();
-			      	    $pubname = $result->fetch_row()[0];
-			      	    echo "Publisher: " .$pubname. "<br>\n";
+				  	$ok = $stmt->bind_param("i", $row["pub_id"]);
+				  	if (!$ok) { die("Bind param error"); }
+				  	$ok = $stmt->execute();
+				  	if (!$ok) { die("Exec error"); }
+			      	$result = $stmt->get_result();
+			      	$pubname = $result->fetch_row()[0];
+			      	echo "Publisher: " .$pubname. "<br>\n";
 
-			      		$stmt = $conn->prepare("SELECT author_id FROM author_book WHERE book_id = ?");
+			      	$stmt = $conn->prepare("SELECT author_id FROM author_book WHERE book_id = ?");
 				  	$ok = $stmt->bind_param("i", $id);
 				  	if (!$ok) { die("Bind param error"); }
 				  	$ok = $stmt->execute();
 				  	if (!$ok) { die("Exec error"); }
 				  	
-			      		$result2 = $stmt->get_result();
+			      	$result2 = $stmt->get_result();
 
-			      		echo "Author(s): ";
+			      	echo "Author(s): ";
 
-			      		$count = 1;
+			      	$count = 1;
 			      	while($row2 = $result2->fetch_assoc()) {
 			      		$authid = $row2["author_id"];
 			      		
@@ -330,34 +331,41 @@
 
 		else echo "0 results";
 
+		$book_sel = "<select name='bookselect'>";
+	    $result = $conn->query("SELECT * from book");
+	    while ($row = $result->fetch_assoc()) {
+	        $book_sel = $book_sel."<option value=".$row["book_id"].">".$row["title"]."</option>";
+	    }
+	    $book_sel = $book_sel."</select>";
+
+		$emp_sel = "<select name='empselect'>";
+	    $result = $conn->query("SELECT * from salesperson");
+	    while ($row = $result->fetch_assoc()) {
+	        $emp_sel = $emp_sel."<option value=".$row["emp_id"].">".$row["emp_id"]."</option>";
+	    }
+	    $emp_sel = $emp_sel."</select>";	    
+
 		echo
 	     "<form method='POST'>
+	     	<input type='hidden' name='page' value='addsale'/>
 	          </table></div>
 	          <div class='container'> <h4>Add new</h4> <table class='table table-bordered'>
 	          <tr> <th>Title</th> <th>Employee ID</th> <th> </th> </tr>
 
 	          <tr>
-	      		<td> <input type='text' id = 'Title' name='Title' required='true' maxlength='150'> </td>
-	      		<td> <input type='number' id = 'emp_id' name='emp_id' required = 'true'> </td>
-	      		<td colspan='2'><button type='submit'> Make Transaction </button></td>
+	      		<td>".$book_sel."</td>
+	      		<td>".$emp_sel."</td>
+	      		<td colspan='4'><button type='submit'> Make Transaction </button></td>
 	          </tr>
 	          </table></div>
 	    </form>";
 	    //non-formatted data table, reference here
 
 
-	    if (isset($_POST['Title'])) {	
-			$title = $_POST['Title'];
-			$emp_id = $_POST['emp_id'];
+	    if (isset($_POST['page'])) {	
+			$id_result = $_POST['bookselect'];
+			$emp_id = $_POST['empselect'];
 			$date = date("Y-m-d");
-
-			$stmt = $conn->prepare("SELECT book_id FROM book WHERE title = ?");
-		  	$ok = $stmt->bind_param("s", $title);
-		  	if (!$ok) { die("Bind param error"); }	
-		  	$ok = $stmt->execute();
-		  	if (!$ok) { die("Exec error"); }
-	        $result = $stmt->get_result();
-	        $id_result = $result->fetch_row()[0];
 
 	        $res = $conn->query("UPDATE Book SET no_in_stock = no_in_stock - 1 WHERE book_id = ".$id_result);
 	        //need to bind parameters(?)
@@ -406,28 +414,40 @@
 				    echo "<td></td>";
 				    echo "</tr>";
 				}
+				//possibility: using data tables
+
+				$book_sel = "<select name='bookselect'>";
+			    $result5 = $conn->query("SELECT * from book");
+			    while ($row5 = $result5->fetch_assoc()) {
+			        $book_sel = $book_sel."<option value=".$row5["book_id"].">".$row5["title"]."</option>";
+			    }
+			    $book_sel = $book_sel."</select>";
 
 				echo "<form method='POST'>
+				  <input type='hidden' name='page' value='addbook'/>
 		          <input type='hidden' id='genrename' name='genrename' value='".$genre_res."'>
 		          <tr>
-		      		<td> <input type='text' name='Title' required='true' maxlength='150'> </td>
-		      		<td colspan='2'><button type='submit'> Add Book </button></td>
+		      		<td>".$book_sel."</td>
+		      		<td colspan='4'><button type='submit'> Add Book </button></td>
 		          </tr>
 	    		</form>";
 	    		echo "</table>";
 
-	    		if (isset($_POST['Title'])) {
+	    		if (isset($_POST['page'])) {
 
-	    			$title = $_POST['Title'];
+	    			$id_result = $_POST['bookselect'];
+
+	    			//$title = $_POST['Title'];
 	    			$genre_ress = $_POST['genrename'];
 
-		    		$stmt = $conn->prepare("SELECT book_id FROM book WHERE title = ?");
-				  	$ok = $stmt->bind_param("s", $title);
-				  	if (!$ok) { die("Bind param error"); }	
-				  	$ok = $stmt->execute();
-				  	if (!$ok) { die("Exec error1"); }
-			        $result3 = $stmt->get_result();
-			        $id_result = $result3->fetch_row()[0];
+		    		//$stmt = $conn->prepare("SELECT book_id FROM book WHERE title = ?");
+				  	//$ok = $stmt->bind_param("s", $title);
+				  	//if (!$ok) { die("Bind param error"); }	
+				  	//$ok = $stmt->execute();
+				  	//if (!$ok) { die("Exec error1"); }
+			        //$result3 = $stmt->get_result();
+			        //$id_result = $result3->fetch_row()[0];
+			        //removed to accommodate dropdown
 
 		    		$sql = "INSERT into book_genre values (?,?)";
 					$stmt = $conn->prepare($sql);
@@ -517,4 +537,6 @@
 
 
 </html>
+
+
 
